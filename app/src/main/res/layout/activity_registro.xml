@@ -7,7 +7,7 @@
     android:fillViewport="true"
     android:overScrollMode="never"
     android:scrollbars="none"
-    tools:context=".ui.auth.LoginActivity">
+    tools:context=".ui.auth.RegistroActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,11 +18,11 @@
         android:paddingBottom="24dp">
 
         <TextView
-            android:id="@+id/lblWelcomeBack"
+            android:id="@+id/lblRegisterTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:text="@string/lblWelcomeBack"
+            android:text="@string/lblRegisterTitle"
             android:textColor="#212121"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -30,24 +30,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/lblLoginToContinue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/lblLoginToContinue"
-            android:textColor="#757575"
-            android:textSize="12sp"
-            android:textStyle="bold"
+        <EditText
+            android:id="@+id/txtName"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/background_input"
+            android:hint="@string/hintName"
+            android:imeOptions="actionNext"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="#212121"
+            android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lblWelcomeBack" />
+            app:layout_constraintTop_toBottomOf="@id/lblRegisterTitle" />
 
         <EditText
             android:id="@+id/txtEmail"
             android:layout_width="0dp"
             android:layout_height="45dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/background_input"
             android:hint="@string/hintEmail"
             android:imeOptions="actionNext"
@@ -59,7 +64,7 @@
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lblLoginToContinue" />
+            app:layout_constraintTop_toBottomOf="@id/txtName" />
 
         <EditText
             android:id="@+id/txtPassword"
@@ -68,7 +73,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/background_input"
             android:hint="@string/hintPassword"
-            android:imeOptions="actionDone"
+            android:imeOptions="actionNext"
             android:importantForAutofill="no"
             android:inputType="textPassword"
             android:paddingStart="16dp"
@@ -79,43 +84,62 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtEmail" />
 
+        <EditText
+            android:id="@+id/txtConfirmPassword"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/background_input"
+            android:hint="@string/hintConfirmPassword"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="textPassword"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="#212121"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtPassword" />
+
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSignIn"
+            android:id="@+id/btnSignUp"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/btnSignIn"
+            android:layout_marginTop="36dp"
+            android:text="@string/btnSignUp"
             android:textColor="#FFFFFF"
             android:textSize="13sp"
             android:textStyle="bold"
             app:cornerRadius="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtPassword" />
+            app:layout_constraintTop_toBottomOf="@id/txtConfirmPassword" />
 
         <ProgressBar
-            android:id="@+id/pgbLogin"
+            android:id="@+id/pgbRegister"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/btnSignIn"
-            app:layout_constraintEnd_toEndOf="@id/btnSignIn"
-            app:layout_constraintStart_toStartOf="@id/btnSignIn"
-            app:layout_constraintTop_toTopOf="@id/btnSignIn" />
+            app:layout_constraintBottom_toBottomOf="@id/btnSignUp"
+            app:layout_constraintEnd_toEndOf="@id/btnSignUp"
+            app:layout_constraintStart_toStartOf="@id/btnSignUp"
+            app:layout_constraintTop_toTopOf="@id/btnSignUp" />
 
         <TextView
-            android:id="@+id/lblCreateNewAccount"
+            android:id="@+id/lblSignIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:padding="6dp"
-            android:text="@string/lblCreateNewAccount"
+            android:text="@string/lblSignIn"
             android:textColor="#1C2E46"
             android:textSize="13sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnSignIn" />
+            app:layout_constraintTop_toBottomOf="@id/btnSignUp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

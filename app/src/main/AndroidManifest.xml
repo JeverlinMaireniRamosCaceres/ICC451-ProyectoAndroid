@@ -12,9 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoAndroidChatFirebase">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.auth.RegistroActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.auth.LoginActivity"
             android:exported="true"
-            android:theme="@style/Theme.ProyectoAndroidChatFirebase"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,10 +25,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>
