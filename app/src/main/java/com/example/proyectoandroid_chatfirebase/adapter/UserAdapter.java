@@ -17,9 +17,15 @@ import java.util.List;
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
 
     private final List<User> listaUsuarios;
+    private final OnUserClickListener listener;
 
-    public UserAdapter(List<User> listaUsuarios) {
+    public interface OnUserClickListener {
+        void onUserClick(User usuario);
+    }
+
+    public UserAdapter(List<User> listaUsuarios, OnUserClickListener listener) {
         this.listaUsuarios = listaUsuarios;
+        this.listener = listener;
     }
 
     @NonNull
@@ -37,6 +43,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         holder.txtNombre.setText(usuario.getNombre());
         holder.txtUltMesj.setText(usuario.getUltimoMensaje());
         holder.txtHora.setText(usuario.getHoraUltimoMensaje());
+        holder.itemView.setOnClickListener(v -> listener.onUserClick(usuario));
     }
 
     @Override

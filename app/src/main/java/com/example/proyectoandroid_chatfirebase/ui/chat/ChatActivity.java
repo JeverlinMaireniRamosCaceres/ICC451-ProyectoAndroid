@@ -19,6 +19,8 @@ public class ChatActivity extends AppCompatActivity {
     private RecyclerView rvMensajes;
     private MessageAdapter messageAdapter;
     private List<Message> listaMensajes;
+    private String uidOtroUs;
+    private String nombreOtroUs;
 
     private static final String UID_USUARIO_ACTUAL = "uidYo";
 
@@ -29,6 +31,13 @@ public class ChatActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbarChat);
         setSupportActionBar(toolbar);
+
+        uidOtroUs = getIntent().getStringExtra("uid");
+        nombreOtroUs = getIntent().getStringExtra("nombre");
+
+        if (nombreOtroUs != null) {
+            toolbar.setTitle(nombreOtroUs);
+        }
 
         rvMensajes = findViewById(R.id.rvMensajes);
 
