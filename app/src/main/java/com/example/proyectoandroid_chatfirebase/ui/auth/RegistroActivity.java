@@ -1,6 +1,7 @@
 package com.example.proyectoandroid_chatfirebase.ui.auth;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,5 +16,12 @@ public class RegistroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityRegistroBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        binding.lblSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }
