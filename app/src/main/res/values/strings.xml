@@ -7,6 +7,11 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+    <string name="lorem_ipsum">Lorem ipsum</string>
+
+    <string name="hint_mensaje">Escribe un mensaje...</string>
+    <string name="desc_enviar_mensaje">Enviar mensaje</string>
+
     <string name="lblWelcomeBack">¡Bienvenido de vuelta!</string>
     <string name="lblLoginToContinue">Inicia sesión para continuar</string>
     <string name="hintEmail">Correo electrónico</string>
@@ -19,5 +24,4 @@
     <string name="hintConfirmPassword">Confirmar contraseña</string>
     <string name="btnSignUp">Registrarme</string>
     <string name="lblSignIn">¿Ya tienes cuenta? Inicia sesión</string>
-    <string name="lorem_ipsum">Lorem ipsum</string>
 </resources>
