@@ -22,6 +22,10 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.users.UsuariosActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.chat.ChatActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>

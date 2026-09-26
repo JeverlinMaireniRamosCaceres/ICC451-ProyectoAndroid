@@ -7,7 +7,7 @@
     <color name="colorFondo">#FFFFFF</color>
     <color name="colorTextoPrimario">#212121</color>
     <color name="colorTextoSecundario">#757575</color>
-    <color name="colorMessageEnv">#2196F3</color>
+    <color name="colorMessageEnv">#006CA5</color>
     <color name="colorMessageRec">#ECECEC</color>
 
 </resources>
