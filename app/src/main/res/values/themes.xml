@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.ProyectoAndroidChatFirebase" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">#1C2E46</item>
-        <item name="android:statusBarColor" tools:targetApi="l">#1C2E46</item>
+        <item name="colorPrimary">@color/colorPrimario</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/colorPrimario</item>
     </style>
 
     <style name="Theme.ProyectoAndroidChatFirebase" parent="Base.Theme.ProyectoAndroidChatFirebase" />
