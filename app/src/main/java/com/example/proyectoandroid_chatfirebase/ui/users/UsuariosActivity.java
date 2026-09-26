@@ -1,5 +1,6 @@
 package com.example.proyectoandroid_chatfirebase.ui.users;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.proyectoandroid_chatfirebase.R;
 import com.example.proyectoandroid_chatfirebase.adapter.UserAdapter;
 import com.example.proyectoandroid_chatfirebase.data.model.User;
+import com.example.proyectoandroid_chatfirebase.ui.chat.ChatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +33,13 @@ public class UsuariosActivity extends AppCompatActivity {
 
         listaUsuarios = crearDatosDePrueba();
 
-        userAdapter = new UserAdapter(listaUsuarios);
+        userAdapter = new UserAdapter(listaUsuarios, usuario -> {
+            Intent intent = new Intent(UsuariosActivity.this, ChatActivity.class);
+            intent.putExtra("uid", usuario.getUid());
+            intent.putExtra("nombre", usuario.getNombre());
+            startActivity(intent);
+        });
+
         rvChats.setAdapter(userAdapter);
         rvChats.setLayoutManager(new LinearLayoutManager(this));
     }
