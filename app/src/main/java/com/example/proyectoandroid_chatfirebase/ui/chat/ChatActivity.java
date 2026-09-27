@@ -27,7 +27,7 @@ public class ChatActivity extends AppCompatActivity {
     private String nombreOtroUs;
     private ChatViewModel chatViewModel;
 
-    private static final String UID_USUARIO_ACTUAL = "uidYo";
+    private static final String UID_USUARIO_ACTUAL = "uhshYjr8izUZhktDJTKACXXlmPj2";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

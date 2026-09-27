@@ -47,7 +47,7 @@ public class UsuariosActivity extends AppCompatActivity {
     private List<User> crearDatosDePrueba() {
         List<User> lista = new ArrayList<>();
 
-        User u1 = new User("uid1", "María", "maria@correo.com");
+        User u1 = new User("onxHXz15kjXitQ9cjpBMuad58hU2", "María (prueba real)", "a@email.com");
         u1.setUltimoMensaje("Hola, ¿cómo estás?");
         u1.setHoraUltimoMensaje("10:32");
         lista.add(u1);
