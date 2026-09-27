@@ -22,6 +22,12 @@ public class AuthRepository {
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
+    public void login(String email, String password, AuthCallback callback) {
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnSuccessListener(result -> callback.onSuccess())
+                .addOnFailureListener(e -> callback.onError(getErrorMessage(e)));
+    }
+
     public void register(String nombre, String email, String password, AuthCallback callback) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener(result -> {

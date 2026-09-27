@@ -43,6 +43,11 @@ public class AuthViewModel extends ViewModel {
         errorMessage.setValue(null);
     }
 
+    public void login(String email, String password) {
+        loading.setValue(true);
+        authRepository.login(email, password, authCallback);
+    }
+
     public void register(String nombre, String email, String password) {
         loading.setValue(true);
         authRepository.register(nombre, email, password, authCallback);
