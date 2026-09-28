@@ -46,6 +46,10 @@ public class AuthRepository {
                 }).addOnFailureListener(e -> callback.onError(getErrorMessage(e)));
     }
 
+    public void logout() {
+        firebaseAuth.signOut();
+    }
+
     private String getErrorMessage(Exception e) {
         if (e instanceof FirebaseAuthWeakPasswordException) {
             return "La contraseña es muy débil. Usa al menos 6 caracteres.";
