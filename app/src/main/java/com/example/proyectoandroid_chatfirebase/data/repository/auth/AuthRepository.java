@@ -22,6 +22,10 @@ public class AuthRepository {
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
+    public boolean isUserLoggedIn() {
+        return firebaseAuth.getCurrentUser() != null;
+    }
+
     public void login(String email, String password, AuthCallback callback) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener(result -> callback.onSuccess())

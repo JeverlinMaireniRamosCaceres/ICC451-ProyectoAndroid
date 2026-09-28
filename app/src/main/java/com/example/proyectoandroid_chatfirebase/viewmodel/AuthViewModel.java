@@ -43,6 +43,11 @@ public class AuthViewModel extends ViewModel {
         errorMessage.setValue(null);
     }
 
+
+    public boolean isUserLoggedIn() {
+        return authRepository.isUserLoggedIn();
+    }
+
     public void login(String email, String password) {
         loading.setValue(true);
         authRepository.login(email, password, authCallback);
