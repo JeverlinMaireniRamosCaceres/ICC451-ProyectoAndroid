@@ -24,4 +24,5 @@
     <string name="hintConfirmPassword">Confirmar contraseña</string>
     <string name="btnSignUp">Registrarme</string>
     <string name="lblSignIn">¿Ya tienes cuenta? Inicia sesión</string>
+    <string name="lblCerrarSesion">Cerrar sesión</string>
 </resources>
