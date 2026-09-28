@@ -27,6 +27,12 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+
+        if (authViewModel.isUserLoggedIn()) {
+            goToUsers();
+            return;
+        }
+
         observeViewModel();
 
         binding.btnSignIn.setOnClickListener(new View.OnClickListener(){
@@ -52,9 +58,7 @@ public class LoginActivity extends AppCompatActivity {
 
         authViewModel.getAuthSuccess().observe(this, success -> {
             if (success) {
-                Intent intent = new Intent(LoginActivity.this, UsuariosActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                goToUsers();
             }
         });
 
@@ -90,5 +94,11 @@ public class LoginActivity extends AppCompatActivity {
         if (isValid.get()) {
             authViewModel.login(email, password);
         }
+    }
+
+    private void goToUsers() {
+        Intent intent = new Intent(LoginActivity.this, UsuariosActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }
