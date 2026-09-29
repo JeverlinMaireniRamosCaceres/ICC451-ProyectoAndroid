@@ -11,12 +11,16 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.widget.Toast;
+import com.example.proyectoandroid_chatfirebase.viewmodel.UserViewModel;
+
 import com.example.proyectoandroid_chatfirebase.R;
 import com.example.proyectoandroid_chatfirebase.adapter.UserAdapter;
 import com.example.proyectoandroid_chatfirebase.data.model.User;
 import com.example.proyectoandroid_chatfirebase.ui.auth.LoginActivity;
 import com.example.proyectoandroid_chatfirebase.ui.chat.ChatActivity;
 import com.example.proyectoandroid_chatfirebase.viewmodel.AuthViewModel;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +31,7 @@ public class UsuariosActivity extends AppCompatActivity {
     private UserAdapter userAdapter;
     private List<User> listaUsuarios;
     private AuthViewModel authViewModel;
+    private UserViewModel usersViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +44,7 @@ public class UsuariosActivity extends AppCompatActivity {
 
         rvChats = findViewById(R.id.rvChats);
 
-        listaUsuarios = crearDatosDePrueba();
+        listaUsuarios = new ArrayList<>();
 
         userAdapter = new UserAdapter(listaUsuarios, usuario -> {
             Intent intent = new Intent(UsuariosActivity.this, ChatActivity.class);
@@ -50,6 +55,16 @@ public class UsuariosActivity extends AppCompatActivity {
 
         rvChats.setAdapter(userAdapter);
         rvChats.setLayoutManager(new LinearLayoutManager(this));
+
+        usersViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+
+        usersViewModel.getUsuarios().observe(this, usuarios -> userAdapter.actualizarLista(usuarios));
+        usersViewModel.getError().observe(this, mensaje ->
+                Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show());
+
+        String miUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        usersViewModel.cargarUsuarios(miUid);
+
     }
 
     @Override
@@ -70,24 +85,5 @@ public class UsuariosActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private List<User> crearDatosDePrueba() {
-        List<User> lista = new ArrayList<>();
 
-        User u1 = new User("onxHXz15kjXitQ9cjpBMuad58hU2", "María (prueba real)", "a@email.com");
-        u1.setUltimoMensaje("Hola, ¿cómo estás?");
-        u1.setHoraUltimoMensaje("10:32");
-        lista.add(u1);
-
-        User u2 = new User("uid2", "Carlos", "carlos@correo.com");
-        u2.setUltimoMensaje("Nos vemos mañana");
-        u2.setHoraUltimoMensaje("09:15");
-        lista.add(u2);
-
-        User u3 = new User("uid3", "Ana", "ana@correo.com");
-        u3.setUltimoMensaje("Perfecto");
-        u3.setHoraUltimoMensaje("Ayer");
-        lista.add(u3);
-
-        return lista;
-    }
 }

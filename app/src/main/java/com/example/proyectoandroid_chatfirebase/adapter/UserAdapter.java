@@ -48,7 +48,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     @Override
     public int getItemCount() {
+
         return listaUsuarios.size();
+
+    }
+
+    public void actualizarLista(List<User> nuevosUsuarios) {
+        listaUsuarios.clear();
+        listaUsuarios.addAll(nuevosUsuarios);
+        notifyDataSetChanged();
     }
 
     static class UserViewHolder extends RecyclerView.ViewHolder {

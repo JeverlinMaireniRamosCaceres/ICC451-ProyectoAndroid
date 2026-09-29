@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -25,9 +27,8 @@ public class ChatActivity extends AppCompatActivity {
     private List<Message> listaMensajes;
     private String uidOtroUs;
     private String nombreOtroUs;
+    private String uidUsuarioActual;
     private ChatViewModel chatViewModel;
-
-    private static final String UID_USUARIO_ACTUAL = "uhshYjr8izUZhktDJTKACXXlmPj2";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,8 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
-        chatViewModel.iniciarChat(UID_USUARIO_ACTUAL, uidOtroUs);
+        uidUsuarioActual = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        chatViewModel.iniciarChat(uidUsuarioActual, uidOtroUs);
 
         rvMensajes = findViewById(R.id.rvMensajes);
         EditText etMensaje = findViewById(R.id.etMensaje);
@@ -59,7 +61,7 @@ public class ChatActivity extends AppCompatActivity {
 
         listaMensajes = new ArrayList<>();
 
-        messageAdapter = new MessageAdapter(listaMensajes, UID_USUARIO_ACTUAL);
+        messageAdapter = new MessageAdapter(listaMensajes, uidUsuarioActual);
         rvMensajes.setAdapter(messageAdapter);
         rvMensajes.setLayoutManager(new LinearLayoutManager(this));
 
@@ -73,7 +75,7 @@ public class ChatActivity extends AppCompatActivity {
             String texto = etMensaje.getText().toString();
             String horaActual = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date());
 
-            chatViewModel.enviarMensaje(texto, UID_USUARIO_ACTUAL, horaActual);
+            chatViewModel.enviarMensaje(texto, uidUsuarioActual, horaActual);
             etMensaje.setText("");
         });
 
