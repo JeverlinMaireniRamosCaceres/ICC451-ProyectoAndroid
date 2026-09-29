@@ -53,9 +53,8 @@ public class RegistroActivity extends AppCompatActivity {
 
         authViewModel.getAuthSuccess().observe(this, success -> {
             if (success) {
-                Intent intent = new Intent(RegistroActivity.this, UsuariosActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                authViewModel.logout();
+                finish();
             }
         });
 
