@@ -39,6 +39,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
+        <ImageButton
+            android:id="@+id/btnAdjuntar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/outline_image_24"
+            app:tint="@color/colorPrimario"
+            android:contentDescription="@string/desc_adjuntar_imagen" />
+
         <EditText
             android:id="@+id/etMensaje"
             android:layout_width="0dp"

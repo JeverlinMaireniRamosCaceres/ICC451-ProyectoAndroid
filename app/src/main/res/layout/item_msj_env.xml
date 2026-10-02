@@ -18,6 +18,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/imgMensajeEnv"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            android:contentDescription="@string/desc_imagen_mensaje" />
+
         <TextView
             android:id="@+id/txtMensajeEnv"
             android:layout_width="wrap_content"
