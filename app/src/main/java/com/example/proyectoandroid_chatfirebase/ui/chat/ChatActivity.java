@@ -1,6 +1,7 @@
 package com.example.proyectoandroid_chatfirebase.ui.chat;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -37,6 +38,9 @@ public class ChatActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbarChat);
         setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         uidOtroUs = getIntent().getStringExtra("uid");
         nombreOtroUs = getIntent().getStringExtra("nombre");
@@ -79,6 +83,15 @@ public class ChatActivity extends AppCompatActivity {
             etMensaje.setText("");
         });
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private List<Message> crearDatosDePrueba() {
