@@ -5,15 +5,17 @@ public class Message {
     private String remitenteuid;
     private String hora;
     private long timestamp;
+    private String imagenUrl;
 
     public Message() {
 
     }
-    public Message(String texto, String remitenteuid, String hora, long timestamp) {
+    public Message(String texto, String remitenteuid, String hora, long timestamp, String imagenUrl) {
         this.texto = texto;
         this.remitenteuid = remitenteuid;
         this.hora = hora;
         this.timestamp = timestamp;
+        this.imagenUrl = imagenUrl;
     }
 
     public String getTexto() {
@@ -47,4 +49,9 @@ public class Message {
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
+
+    public String getImagenUrl() {return imagenUrl;}
+
+    public void setImagenUrl(String imagenUrl) {this.imagenUrl = imagenUrl;}
 }
+

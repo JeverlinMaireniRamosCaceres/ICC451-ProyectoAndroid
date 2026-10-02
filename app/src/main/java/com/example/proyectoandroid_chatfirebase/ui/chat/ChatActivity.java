@@ -2,8 +2,14 @@ package com.example.proyectoandroid_chatfirebase.ui.chat;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
+import android.net.Uri;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -31,6 +37,18 @@ public class ChatActivity extends AppCompatActivity {
     private String uidUsuarioActual;
     private ChatViewModel chatViewModel;
 
+    private final ActivityResultLauncher<String> selectorImagen = registerForActivityResult(
+            new ActivityResultContracts.GetContent(),
+            new ActivityResultCallback<Uri>() {
+                @Override
+                public void onActivityResult(Uri uri) {
+                    if (uri != null) {
+                        String horaActual = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date());
+                        chatViewModel.enviarImagen(uri, uidUsuarioActual, horaActual);
+                    }
+                }
+            });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +74,7 @@ public class ChatActivity extends AppCompatActivity {
         rvMensajes = findViewById(R.id.rvMensajes);
         EditText etMensaje = findViewById(R.id.etMensaje);
         ImageButton btnEnviar = findViewById(R.id.btnEnviar);
+        ImageButton btnAdjuntar = findViewById(R.id.btnAdjuntar);
 
         /*listaMensajes = crearDatosDePrueba();
 
@@ -83,6 +102,13 @@ public class ChatActivity extends AppCompatActivity {
             etMensaje.setText("");
         });
 
+        btnAdjuntar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectorImagen.launch("image/*");
+            }
+        });
+
     }
 
     @Override
@@ -94,15 +120,15 @@ public class ChatActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private List<Message> crearDatosDePrueba() {
-        List<Message> lista = new ArrayList<>();
-
-        lista.add(new Message("Hola, ¿cómo estás?", "uidMaria", "10:30", System.currentTimeMillis()));
-        lista.add(new Message("Bien, ¿y tú?", "uidYo", "10:31", System.currentTimeMillis()));
-        lista.add(new Message("También bien, gracias", "uidMaria", "10:32", System.currentTimeMillis()));
-        lista.add(new Message("¿Nos vemos mañana?", "uidYo", "10:33", System.currentTimeMillis()));
-
-        return lista;
-    }
+//    private List<Message> crearDatosDePrueba() {
+//        List<Message> lista = new ArrayList<>();
+//
+//        lista.add(new Message("Hola, ¿cómo estás?", "uidMaria", "10:30", System.currentTimeMillis()));
+//        lista.add(new Message("Bien, ¿y tú?", "uidYo", "10:31", System.currentTimeMillis()));
+//        lista.add(new Message("También bien, gracias", "uidMaria", "10:32", System.currentTimeMillis()));
+//        lista.add(new Message("¿Nos vemos mañana?", "uidYo", "10:33", System.currentTimeMillis()));
+//
+//        return lista;
+//    }
 
 }

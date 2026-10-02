@@ -11,6 +11,8 @@
 
     <string name="hint_mensaje">Escribe un mensaje...</string>
     <string name="desc_enviar_mensaje">Enviar mensaje</string>
+    <string name="desc_adjuntar_imagen">Adjuntar imagen</string>
+    <string name="desc_imagen_mensaje">Imagen enviada en el chat</string>
 
     <string name="lblWelcomeBack">¡Bienvenido de vuelta!</string>
     <string name="lblLoginToContinue">Inicia sesión para continuar</string>

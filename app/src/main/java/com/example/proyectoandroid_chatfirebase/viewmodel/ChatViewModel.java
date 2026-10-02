@@ -1,5 +1,7 @@
 package com.example.proyectoandroid_chatfirebase.viewmodel;
 
+import android.net.Uri;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -50,12 +52,41 @@ public class ChatViewModel extends ViewModel {
             return;
         }
 
-        Message nuevoMensaje = new Message(texto, uidUsuarioActual, hora, System.currentTimeMillis());
+        Message nuevoMensaje = new Message(texto, uidUsuarioActual, hora, System.currentTimeMillis(), null);
 
         messageRepository.enviarMensaje(chatId, nuevoMensaje, new MessageRepository.OnMensajeEnviadoListener() {
             @Override
             public void onExito() {
  
+            }
+
+            @Override
+            public void onError(String mensajeError) {
+                error.setValue(mensajeError);
+            }
+        });
+    }
+    public void enviarImagen(Uri imagenUri, String uidUsuarioActual, String hora) {
+        if (imagenUri == null) {
+            return;
+        }
+
+        messageRepository.subirImagen(chatId, imagenUri, new MessageRepository.OnImagenSubidaListener() {
+            @Override
+            public void onExito(String urlImagen) {
+                Message nuevoMensaje = new Message("", uidUsuarioActual, hora, System.currentTimeMillis(), urlImagen);
+
+                messageRepository.enviarMensaje(chatId, nuevoMensaje, new MessageRepository.OnMensajeEnviadoListener() {
+                    @Override
+                    public void onExito() {
+
+                    }
+
+                    @Override
+                    public void onError(String mensajeError) {
+                        error.setValue(mensajeError);
+                    }
+                });
             }
 
             @Override
