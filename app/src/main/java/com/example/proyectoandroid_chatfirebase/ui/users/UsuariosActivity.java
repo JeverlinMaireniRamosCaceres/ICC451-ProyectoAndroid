@@ -25,6 +25,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.util.Log;
+import com.example.proyectoandroid_chatfirebase.data.repository.user.UserRepository;
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.content.ContextCompat;
+
 public class UsuariosActivity extends AppCompatActivity {
 
     private RecyclerView rvChats;
@@ -32,6 +43,7 @@ public class UsuariosActivity extends AppCompatActivity {
     private List<User> listaUsuarios;
     private AuthViewModel authViewModel;
     private UserViewModel usersViewModel;
+    private ActivityResultLauncher<String> permisoNots;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +76,20 @@ public class UsuariosActivity extends AppCompatActivity {
 
         String miUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         usersViewModel.cargarUsuarios(miUid);
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnSuccessListener(token -> new UserRepository().guardarToken(miUid, token))
+                .addOnFailureListener(e -> Log.e("FCM", "No se pudo obtener el token: " + e.getMessage()));
+
+        permisoNots = registerForActivityResult(
+                new ActivityResultContracts.RequestPermission(),
+                concedido -> Log.d("FCM", "Permiso de notificaciones: " + concedido));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+            permisoNots.launch(Manifest.permission.POST_NOTIFICATIONS);
+        }
 
     }
 

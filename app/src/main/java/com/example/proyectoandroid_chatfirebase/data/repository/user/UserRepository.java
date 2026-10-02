@@ -30,6 +30,12 @@ public class UserRepository {
                 .addOnFailureListener(e -> listener.onError(e.getMessage()));
     }
 
+    public void guardarToken(String uid, String token) {
+        db.collection("usuarios")
+                .document(uid)
+                .update("fcmToken", token);
+    }
+
     public interface OnUsuariosObtenidosListener {
         void onUsuariosObtenidos(List<User> usuarios);
         void onError(String error);
