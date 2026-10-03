@@ -102,10 +102,13 @@ public class UsuariosActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_logout) {
-            authViewModel.logout();
-            Intent intent = new Intent(UsuariosActivity.this, LoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
+            String miUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            new UserRepository().borrarToken(miUid, () -> {
+                authViewModel.logout();
+                Intent intent = new Intent(UsuariosActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            });
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -16,6 +16,14 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
+import android.app.PendingIntent;
+import android.content.Intent;
+import java.util.Map;
+import com.example.proyectoandroid_chatfirebase.ui.chat.ChatActivity;import android.app.PendingIntent;
+import android.content.Intent;
+import java.util.Map;
+import com.example.proyectoandroid_chatfirebase.ui.chat.ChatActivity;
+
 public class ServiceMessagingFirebase extends FirebaseMessagingService {
 
     private static final String TAG = "FCM";
@@ -32,8 +40,13 @@ public class ServiceMessagingFirebase extends FirebaseMessagingService {
         super.onMessageReceived(mensaje);
         Log.d(TAG, "Mensaje recibido de: " + mensaje.getFrom());
 
-        RemoteMessage.Notification notificacion = mensaje.getNotification();
-        if (notificacion == null) {
+        Map<String, String> datos = mensaje.getData();
+        String titulo = datos.get("titulo");
+        String cuerpo = datos.get("cuerpo");
+        String remitenteUid = datos.get("remitenteUid");
+        String remitenteNombre = datos.get("remitenteNombre");
+
+        if (titulo == null || cuerpo == null) {
             return;
         }
 
@@ -44,15 +57,28 @@ public class ServiceMessagingFirebase extends FirebaseMessagingService {
             return;
         }
 
+        Intent intent = new Intent(this, ChatActivity.class);
+        intent.putExtra("uid", remitenteUid);
+        intent.putExtra("nombre", remitenteNombre);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        int idNotificacion = (int) System.currentTimeMillis();
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this,
+                idNotificacion,
+                intent,
+                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CANAL_ID)
                 .setSmallIcon(R.drawable.baseline_account_circle_24)
-                .setContentTitle(notificacion.getTitle())
-                .setContentText(notificacion.getBody())
+                .setContentTitle(titulo)
+                .setContentText(cuerpo)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 
-        NotificationManagerCompat.from(this)
-                .notify((int) System.currentTimeMillis(), builder.build());
+        NotificationManagerCompat.from(this).notify(idNotificacion, builder.build());
 
     }
 
