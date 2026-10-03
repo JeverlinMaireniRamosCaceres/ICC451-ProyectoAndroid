@@ -44,5 +44,17 @@ public class UserViewModel extends ViewModel {
         });
     }
 
+    public String obtenerMiUid() {
+        return userRepository.obtenerMiUid();
+    }
+
+    public void guardarTokenActual() {
+        userRepository.guardarTokenActual(obtenerMiUid());
+    }
+
+    public void cerrarSesionLimpiando(Runnable alTerminar) {
+        userRepository.borrarToken(obtenerMiUid(), alTerminar);
+    }
+
 
 }

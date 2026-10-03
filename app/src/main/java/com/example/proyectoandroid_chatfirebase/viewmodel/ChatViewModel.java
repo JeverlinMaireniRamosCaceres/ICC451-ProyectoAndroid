@@ -47,6 +47,10 @@ public class ChatViewModel extends ViewModel {
         });
     }
 
+    public String obtenerMiUid() {
+        return messageRepository.obtenerMiUid();
+    }
+
     public void enviarMensaje(String texto, String uidUsuarioActual, String hora) {
         if (texto == null || texto.trim().isEmpty()) {
             return;

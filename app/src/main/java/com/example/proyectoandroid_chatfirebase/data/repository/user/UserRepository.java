@@ -7,6 +7,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.util.Log;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.messaging.FirebaseMessaging;
+
 public class UserRepository {
 
     private final FirebaseFirestore db;
@@ -42,6 +46,16 @@ public class UserRepository {
                 .document(uid)
                 .update("fcmToken", FieldValue.delete())
                 .addOnCompleteListener(tarea -> alTerminar.run());
+    }
+
+    public String obtenerMiUid() {
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();
+    }
+
+    public void guardarTokenActual(String uid) {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnSuccessListener(token -> guardarToken(uid, token))
+                .addOnFailureListener(e -> Log.e("FCM", "No se pudo obtener el token: " + e.getMessage()));
     }
 
     public interface OnUsuariosObtenidosListener {

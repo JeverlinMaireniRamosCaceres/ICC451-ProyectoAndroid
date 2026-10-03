@@ -11,8 +11,6 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -68,7 +66,7 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
-        uidUsuarioActual = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        uidUsuarioActual = chatViewModel.obtenerMiUid();
         chatViewModel.iniciarChat(uidUsuarioActual, uidOtroUs);
 
         rvMensajes = findViewById(R.id.rvMensajes);

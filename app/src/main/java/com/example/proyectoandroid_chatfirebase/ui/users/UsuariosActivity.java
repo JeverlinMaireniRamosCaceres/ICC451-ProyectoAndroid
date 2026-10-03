@@ -26,8 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.util.Log;
-import com.example.proyectoandroid_chatfirebase.data.repository.user.UserRepository;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -77,9 +75,7 @@ public class UsuariosActivity extends AppCompatActivity {
         String miUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         usersViewModel.cargarUsuarios(miUid);
 
-        FirebaseMessaging.getInstance().getToken()
-                .addOnSuccessListener(token -> new UserRepository().guardarToken(miUid, token))
-                .addOnFailureListener(e -> Log.e("FCM", "No se pudo obtener el token: " + e.getMessage()));
+        usersViewModel.guardarTokenActual();
 
         permisoNots = registerForActivityResult(
                 new ActivityResultContracts.RequestPermission(),
@@ -102,8 +98,7 @@ public class UsuariosActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_logout) {
-            String miUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            new UserRepository().borrarToken(miUid, () -> {
+            usersViewModel.cerrarSesionLimpiando(() -> {
                 authViewModel.logout();
                 Intent intent = new Intent(UsuariosActivity.this, LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
