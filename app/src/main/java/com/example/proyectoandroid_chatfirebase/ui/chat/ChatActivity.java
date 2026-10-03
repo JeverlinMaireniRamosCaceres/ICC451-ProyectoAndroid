@@ -74,12 +74,6 @@ public class ChatActivity extends AppCompatActivity {
         ImageButton btnEnviar = findViewById(R.id.btnEnviar);
         ImageButton btnAdjuntar = findViewById(R.id.btnAdjuntar);
 
-        /*listaMensajes = crearDatosDePrueba();
-
-        messageAdapter = new MessageAdapter(listaMensajes, UID_USUARIO_ACTUAL);
-        rvMensajes.setAdapter(messageAdapter);
-        rvMensajes.setLayoutManager(new LinearLayoutManager(this));*/
-
         listaMensajes = new ArrayList<>();
 
         messageAdapter = new MessageAdapter(listaMensajes, uidUsuarioActual);
@@ -118,15 +112,5 @@ public class ChatActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    private List<Message> crearDatosDePrueba() {
-//        List<Message> lista = new ArrayList<>();
-//
-//        lista.add(new Message("Hola, ¿cómo estás?", "uidMaria", "10:30", System.currentTimeMillis()));
-//        lista.add(new Message("Bien, ¿y tú?", "uidYo", "10:31", System.currentTimeMillis()));
-//        lista.add(new Message("También bien, gracias", "uidMaria", "10:32", System.currentTimeMillis()));
-//        lista.add(new Message("¿Nos vemos mañana?", "uidYo", "10:33", System.currentTimeMillis()));
-//
-//        return lista;
-//    }
 
 }
