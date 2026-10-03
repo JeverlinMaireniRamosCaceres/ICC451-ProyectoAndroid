@@ -15,6 +15,10 @@ import com.example.proyectoandroid_chatfirebase.data.model.Message;
 
 import java.util.List;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TIPO_ENVIADO = 1;
@@ -60,10 +64,12 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             EnviadoViewHolder enviadoHolder = (EnviadoViewHolder) holder;
             mostrarContenido(mensaje, enviadoHolder.txtMensajeEnv, enviadoHolder.imgMensajeEnv);
             enviadoHolder.txtHoraEnv.setText(mensaje.getHora());
+            configurarFecha(enviadoHolder.txtFecha, position);
         } else if (holder instanceof RecibidoViewHolder) {
             RecibidoViewHolder recibidoHolder = (RecibidoViewHolder) holder;
             mostrarContenido(mensaje, recibidoHolder.txtMensajeRec, recibidoHolder.imgMensajeRec);
             recibidoHolder.txtHoraRec.setText(mensaje.getHora());
+            configurarFecha(recibidoHolder.txtFecha, position);
         }
     }
 
@@ -81,6 +87,37 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    private String claveDia(long timestamp) {
+        return new SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(new Date(timestamp));
+    }
+
+    private String textoFecha(long timestamp) {
+        String clave = claveDia(timestamp);
+        long ahora = System.currentTimeMillis();
+
+        if (clave.equals(claveDia(ahora))) {
+            return "Hoy";
+        }
+        if (clave.equals(claveDia(ahora - 24L * 60 * 60 * 1000))) {
+            return "Ayer";
+        }
+        return new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date(timestamp));
+    }
+
+    private void configurarFecha(TextView txtFecha, int position) {
+        long actual = listaMensajes.get(position).getTimestamp();
+
+        boolean mostrar = position == 0
+                || !claveDia(actual).equals(claveDia(listaMensajes.get(position - 1).getTimestamp()));
+
+        if (mostrar) {
+            txtFecha.setText(textoFecha(actual));
+            txtFecha.setVisibility(View.VISIBLE);
+        } else {
+            txtFecha.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public int getItemCount() {
         return listaMensajes.size();
@@ -90,12 +127,14 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView txtMensajeEnv;
         ImageView imgMensajeEnv;
         TextView txtHoraEnv;
+        TextView txtFecha;
 
         public EnviadoViewHolder(@NonNull View itemView) {
             super(itemView);
             txtMensajeEnv = itemView.findViewById(R.id.txtMensajeEnv);
             imgMensajeEnv = itemView.findViewById(R.id.imgMensajeEnv);
             txtHoraEnv = itemView.findViewById(R.id.txtHoraEnv);
+            txtFecha = itemView.findViewById(R.id.txtFecha);
         }
     }
 
@@ -103,12 +142,14 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView txtMensajeRec;
         ImageView imgMensajeRec;
         TextView txtHoraRec;
+        TextView txtFecha;
 
         public RecibidoViewHolder(@NonNull View itemView) {
             super(itemView);
             txtMensajeRec = itemView.findViewById(R.id.txtMensajeRec);
             imgMensajeRec = itemView.findViewById(R.id.imgMensajeRec);
             txtHoraRec = itemView.findViewById(R.id.txtHoraRec);
+            txtFecha = itemView.findViewById(R.id.txtFecha);
         }
     }
 }
