@@ -3,6 +3,7 @@ package com.example.proyectoandroid_chatfirebase.data.repository.message;
 import android.net.Uri;
 
 import com.example.proyectoandroid_chatfirebase.data.model.Message;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -28,6 +29,10 @@ public class MessageRepository {
         } else {
             return uid2 + "_" + uid1;
         }
+    }
+
+    public String obtenerMiUid() {
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
     public void enviarMensaje(String chatId, Message mensaje, OnMensajeEnviadoListener listener) {
