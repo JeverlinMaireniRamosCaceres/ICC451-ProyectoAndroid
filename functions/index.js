@@ -40,9 +40,14 @@ exports.notificarNuevoMensaje = onDocumentCreated(
       try {
         await admin.messaging().send({
           token: token,
-          notification: {
-            title: nombreRemitente,
-            body: cuerpo,
+          data: {
+            titulo: nombreRemitente,
+            cuerpo: cuerpo,
+            remitenteUid: remitenteUid,
+            remitenteNombre: nombreRemitente,
+          },
+          android: {
+            priority: "high",
           },
         });
         logger.info("Notificación enviada", {destinatarioUid});

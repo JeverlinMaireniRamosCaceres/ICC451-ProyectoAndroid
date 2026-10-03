@@ -1,6 +1,7 @@
 package com.example.proyectoandroid_chatfirebase.data.repository.user;
 
 import com.example.proyectoandroid_chatfirebase.data.model.User;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -34,6 +35,13 @@ public class UserRepository {
         db.collection("usuarios")
                 .document(uid)
                 .update("fcmToken", token);
+    }
+
+    public void borrarToken(String uid, Runnable alTerminar) {
+        db.collection("usuarios")
+                .document(uid)
+                .update("fcmToken", FieldValue.delete())
+                .addOnCompleteListener(tarea -> alTerminar.run());
     }
 
     public interface OnUsuariosObtenidosListener {
