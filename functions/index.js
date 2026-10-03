@@ -25,6 +25,7 @@ exports.notificarNuevoMensaje = onDocumentCreated(
       const destinatarioDoc = await db.collection("usuarios").doc(destinatarioUid).get();
       const remitenteDoc = await db.collection("usuarios").doc(remitenteUid).get();
 
+
       const token = destinatarioDoc.data() && destinatarioDoc.data().fcmToken;
       if (!token) {
         logger.warn("El destinatario no tiene fcmToken", {destinatarioUid});
@@ -32,13 +33,16 @@ exports.notificarNuevoMensaje = onDocumentCreated(
       }
 
       const nombreRemitente = (remitenteDoc.data() && remitenteDoc.data().nombre) || "Nuevo mensaje";
+      const hayTexto = mensaje.texto && mensaje.texto.trim() !== "";
+      const cuerpo = hayTexto ? mensaje.texto : (mensaje.imagenUrl ? "Imagen" : "Nuevo mensaje");
+
 
       try {
         await admin.messaging().send({
           token: token,
           notification: {
             title: nombreRemitente,
-            body: mensaje.texto,
+            body: cuerpo,
           },
         });
         logger.info("Notificación enviada", {destinatarioUid});
