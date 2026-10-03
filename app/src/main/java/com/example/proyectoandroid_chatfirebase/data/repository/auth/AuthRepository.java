@@ -59,7 +59,7 @@ public class AuthRepository {
         }
         if (e instanceof FirebaseAuthInvalidUserException
                 || e instanceof FirebaseAuthInvalidCredentialsException) {
-            return "Correo o contraseña incorrectos.";
+            return "Correo o contraseña incorrectos. Si no tiene cuenta, regístrese.";
         }
         if (e instanceof FirebaseNetworkException) {
             return "No hay conexión a internet. Revisa tu red.";
