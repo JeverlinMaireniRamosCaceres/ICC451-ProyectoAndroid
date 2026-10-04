@@ -12,11 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.proyectoandroid_chatfirebase.R;
 import com.example.proyectoandroid_chatfirebase.data.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
 
     private final List<User> listaUsuarios;
+    private final List<User> listaCompleta = new ArrayList<>();
     private final OnUserClickListener listener;
 
     public interface OnUserClickListener {
@@ -54,8 +56,21 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
 
     public void actualizarLista(List<User> nuevosUsuarios) {
+        listaCompleta.clear();
+        listaCompleta.addAll(nuevosUsuarios);
+        filtrar("");
+    }
+
+    public void filtrar(String texto) {
+        String busqueda = texto == null ? "" : texto.trim().toLowerCase();
+
         listaUsuarios.clear();
-        listaUsuarios.addAll(nuevosUsuarios);
+        for (User usuario : listaCompleta) {
+            String nombre = usuario.getNombre() == null ? "" : usuario.getNombre().toLowerCase();
+            if (nombre.contains(busqueda)) {
+                listaUsuarios.add(usuario);
+            }
+        }
         notifyDataSetChanged();
     }
 

@@ -34,6 +34,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.ContextCompat;
 
+import androidx.appcompat.widget.SearchView;
+
 public class UsuariosActivity extends AppCompatActivity {
 
     private RecyclerView rvChats;
@@ -92,6 +94,25 @@ public class UsuariosActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_usuarios, menu);
+
+        MenuItem itemBuscar = menu.findItem(R.id.action_buscar);
+        SearchView searchView = (SearchView) itemBuscar.getActionView();
+        searchView.setQueryHint(getString(R.string.hint_buscar_usuario));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                userAdapter.filtrar(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                userAdapter.filtrar(newText);
+                return true;
+            }
+        });
+
         return true;
     }
 

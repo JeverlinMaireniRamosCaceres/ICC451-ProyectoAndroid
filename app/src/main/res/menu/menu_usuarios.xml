@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_buscar"
+        android:icon="@drawable/outline_document_search_24"
+        android:title="@string/lblBuscar"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="always|collapseActionView" />
+
+    <item
         android:id="@+id/action_logout"
         android:title="@string/lblCerrarSesion"
         app:showAsAction="never"
