@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.Toast;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -64,12 +64,14 @@ public class LoginActivity extends AppCompatActivity {
 
         authViewModel.getErrorMessage().observe(this, message -> {
             if (message != null) {
-                Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
+                binding.lblError.setText(message);
+                binding.lblError.setVisibility(View.VISIBLE);
                 authViewModel.clearError();
             }
         });
     }
     private void validationAndLogin() {
+        binding.lblError.setVisibility(View.GONE);
         AtomicBoolean isValid = new AtomicBoolean(true);
 
         String email = binding.txtEmail.getText().toString().trim();
