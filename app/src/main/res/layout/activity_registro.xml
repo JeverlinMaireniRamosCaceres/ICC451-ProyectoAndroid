@@ -103,19 +103,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtPassword" />
 
+        <TextView
+            android:id="@+id/lblError"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:textColor="?attr/colorError"
+            android:textSize="13sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtConfirmPassword" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSignUp"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="20dp"
             android:text="@string/btnSignUp"
             android:textColor="@color/white"
             android:textSize="13sp"
             android:textStyle="bold"
             app:cornerRadius="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtConfirmPassword" />
+            app:layout_constraintTop_toBottomOf="@id/lblError"
+            app:layout_goneMarginTop="36dp" />
 
         <ProgressBar
             android:id="@+id/pgbRegister"
