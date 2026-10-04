@@ -27,4 +27,7 @@
     <string name="btnSignUp">Registrarme</string>
     <string name="lblSignIn">¿Ya tienes cuenta? Inicia sesión</string>
     <string name="lblCerrarSesion">Cerrar sesión</string>
+
+    <string name="hint_buscar_usuario">Buscar usuario</string>
+    <string name="lblBuscar">Buscar</string>
 </resources>
