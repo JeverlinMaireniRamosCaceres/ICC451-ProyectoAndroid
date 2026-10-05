@@ -126,6 +126,7 @@
             android:textSize="13sp"
             android:textStyle="bold"
             app:cornerRadius="8dp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lblError"
             app:layout_goneMarginTop="36dp" />

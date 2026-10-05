@@ -15,6 +15,7 @@ public class UserViewModel extends ViewModel {
     private final UserRepository userRepository = new UserRepository();
     private final MutableLiveData<List<User>> usuarios = new MutableLiveData<>();
     private final MutableLiveData<String> error = new MutableLiveData<>();
+    private final MutableLiveData<String> miNombre = new MutableLiveData<>();
 
     public LiveData<List<User>> getUsuarios() {
         return usuarios;
@@ -30,7 +31,9 @@ public class UserViewModel extends ViewModel {
             public void onUsuariosObtenidos(List<User> lista) {
                 List<User> filtrada = new ArrayList<>();
                 for (User u : lista) {
-                    if (!miUid.equals(u.getUid())) {
+                    if (miUid.equals(u.getUid())) {
+                        miNombre.setValue(u.getNombre());
+                    } else {
                         filtrada.add(u);
                     }
                 }
@@ -56,5 +59,8 @@ public class UserViewModel extends ViewModel {
         userRepository.borrarToken(obtenerMiUid(), alTerminar);
     }
 
+    public LiveData<String> getMiNombre() {
+        return miNombre;
+    }
 
 }
