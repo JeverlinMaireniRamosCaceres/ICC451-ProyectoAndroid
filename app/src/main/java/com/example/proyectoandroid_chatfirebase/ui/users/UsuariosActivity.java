@@ -74,6 +74,12 @@ public class UsuariosActivity extends AppCompatActivity {
         usersViewModel.getError().observe(this, mensaje ->
                 Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show());
 
+        usersViewModel.getMiNombre().observe(this, nombre -> {
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setTitle("Chats de " + nombre);
+            }
+        });
+
         String miUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         usersViewModel.cargarUsuarios(miUid);
 
