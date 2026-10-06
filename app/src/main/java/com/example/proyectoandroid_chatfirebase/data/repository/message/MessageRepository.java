@@ -16,13 +16,19 @@ import java.util.UUID;
 
 public class MessageRepository {
 
+    // Para los mensajes
     private final FirebaseFirestore db;
+
+    // Para las imagenes
     private final FirebaseStorage storage;
     public MessageRepository() {
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
     }
 
+    // Para generar el id del chat ordenado para que los dos telefonos tengan el mismo chatId
+    // Recibe los dos uid para unirlos con un underscore
+    // Coloca primero al que va antes alfabeticamente
     public String generarChatId(String uid1, String uid2) {
         if (uid1.compareTo(uid2) < 0) {
             return uid1 + "_" + uid2;
@@ -31,10 +37,12 @@ public class MessageRepository {
         }
     }
 
+    // Retorna el uid del usuario que tiene la sesion iniciada
     public String obtenerMiUid() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
+    // Guarda el mensaje en la subcoleccion de mensaje dentro del documento del chat
     public void enviarMensaje(String chatId, Message mensaje, OnMensajeEnviadoListener listener) {
         db.collection("chats")
                 .document(chatId)
@@ -44,6 +52,7 @@ public class MessageRepository {
                 .addOnFailureListener(e -> listener.onError(e.getMessage()));
     }
 
+    // Primero se sube el archivo de la imagen a Storage y devuelve su url
     public void subirImagen(String chatId, Uri imagenUri, OnImagenSubidaListener listener) {
         String nombreArchivo = UUID.randomUUID().toString() + ".jpg";
         StorageReference referencia = storage.getReference()
@@ -60,6 +69,9 @@ public class MessageRepository {
                 .addOnFailureListener(e -> listener.onError(e.getMessage()));
     }
 
+    // Es la comunicacion en tiempo real
+    // Primero se ordenan los mensajes del mas viejo al mas reciente
+    // Se tiene un snapshot listener que se ejecuta cada vez que hay un cambio en la subcoleccion de mensajes
     public void escucharMensajes(String chatId, OnMensajesActualizadosListener listener) {
         db.collection("chats")
                 .document(chatId)
@@ -82,6 +94,8 @@ public class MessageRepository {
                 });
     }
 
+    // Callbacks para comunicarse con el viewmodel de mensaje de forma asincrona
+    
     public interface OnMensajeEnviadoListener {
         void onExito();
         void onError(String error);

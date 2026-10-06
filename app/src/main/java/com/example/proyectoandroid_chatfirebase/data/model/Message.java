@@ -3,10 +3,17 @@ package com.example.proyectoandroid_chatfirebase.data.model;
 public class Message {
     private String texto;
     private String remitenteuid;
+
+    // Hora formateada para cada mensaje
     private String hora;
+
+    // Timestamp para ordenar los mensajes por hora de llegada
     private long timestamp;
+
+    // Almacena la url de la imagen en Storage, si es un mensaje de texto queda nula
     private String imagenUrl;
 
+    // Constructor vacio necesario para que Firestore convierta a documentos
     public Message() {
 
     }
