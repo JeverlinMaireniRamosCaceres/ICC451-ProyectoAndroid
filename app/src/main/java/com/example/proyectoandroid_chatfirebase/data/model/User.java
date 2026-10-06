@@ -8,6 +8,7 @@ public class User {
     private String ultimoMensaje;
     private String horaUltimoMensaje;
 
+    // Constructor vacio necesario para que Firestore convierta a documentos
     public User(){
 
     }

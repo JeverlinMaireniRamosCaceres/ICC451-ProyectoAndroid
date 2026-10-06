@@ -19,6 +19,8 @@ public class UserRepository {
         db = FirebaseFirestore.getInstance();
     }
 
+    // Para obtener la lista de usuarios
+    // Usa un get, por lo que la lectura no es en tiempo real
     public void obtenerUsuarios(OnUsuariosObtenidosListener listener) {
         db.collection("usuarios")
                 .get()
@@ -35,12 +37,14 @@ public class UserRepository {
                 .addOnFailureListener(e -> listener.onError(e.getMessage()));
     }
 
+    // Guarda el token del Fire Cloud Messaging para que la funcion de Cloud Function sepa a que dispositivo enviar la notificacion
     public void guardarToken(String uid, String token) {
         db.collection("usuarios")
                 .document(uid)
                 .update("fcmToken", token);
     }
 
+    // Borra el token al cerrar la sesion para que el telefono no reciba las notificaciones
     public void borrarToken(String uid, Runnable alTerminar) {
         db.collection("usuarios")
                 .document(uid)
@@ -52,12 +56,14 @@ public class UserRepository {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
+    // Para guardar el token del dispositivo
     public void guardarTokenActual(String uid) {
         FirebaseMessaging.getInstance().getToken()
                 .addOnSuccessListener(token -> guardarToken(uid, token))
                 .addOnFailureListener(e -> Log.e("FCM", "No se pudo obtener el token: " + e.getMessage()));
     }
 
+    // Es el callback para retornar la lista de usuarios al viewmodel
     public interface OnUsuariosObtenidosListener {
         void onUsuariosObtenidos(List<User> usuarios);
         void onError(String error);

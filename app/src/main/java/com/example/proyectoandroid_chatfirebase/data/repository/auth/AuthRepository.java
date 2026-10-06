@@ -13,6 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class AuthRepository {
     public static final String COLLECTION_USUARIOS = "usuarios";
 
+    //  Este callback es para notificar al ViewModel la respuesta de Firebase sin que el repositorio conecte directamente con la vista
     public interface AuthCallback {
         void onSuccess();
 
@@ -22,16 +23,19 @@ public class AuthRepository {
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
+    // Para mantener la sesion iniciada, Firebase guarda la sesion en el telefono
     public boolean isUserLoggedIn() {
         return firebaseAuth.getCurrentUser() != null;
     }
 
+    // Login con el authentication de Firebase, no la coleccion de usuarios
     public void login(String email, String password, AuthCallback callback) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener(result -> callback.onSuccess())
                 .addOnFailureListener(e -> callback.onError(getErrorMessage(e)));
     }
 
+    // Para el registro. Primero se crea la cuenta en el authentication de Firebase y luego el usuario para la coleccion de usuarios de Firebase
     public void register(String nombre, String email, String password, AuthCallback callback) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener(result -> {
@@ -50,6 +54,7 @@ public class AuthRepository {
         firebaseAuth.signOut();
     }
 
+    // Traduccion a español de los mensajes de error
     private String getErrorMessage(Exception e) {
         if (e instanceof FirebaseAuthWeakPasswordException) {
             return "La contraseña es muy débil. Usa al menos 6 caracteres.";
