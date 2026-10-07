@@ -20,7 +20,7 @@ import com.example.proyectoandroid_chatfirebase.data.model.User;
 import com.example.proyectoandroid_chatfirebase.ui.auth.LoginActivity;
 import com.example.proyectoandroid_chatfirebase.ui.chat.ChatActivity;
 import com.example.proyectoandroid_chatfirebase.viewmodel.AuthViewModel;
-import com.google.firebase.auth.FirebaseAuth;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +85,7 @@ public class UsuariosActivity extends AppCompatActivity {
             }
         });
 
-        String miUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String miUid = usersViewModel.obtenerMiUid();
         usersViewModel.cargarUsuarios(miUid);
 
         // Guarda el token de Fire Cloud Messaging de este dispositivo al entrar con sesion iniciada
