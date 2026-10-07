@@ -21,6 +21,7 @@ import java.util.Locale;
 
 public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    // Constantes para saber que tipo de fila es, para saber cuales son los mios y cuales son los del otro usuario
     private static final int TIPO_ENVIADO = 1;
     private static final int TIPO_RECIBIDO = 2;
 
@@ -32,6 +33,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.uidUsuarioActual = uidUsuarioActual;
     }
 
+    // Los agrupa por remitente, si es mensaje propio lo coloca a la derecba
+    // si es recibido lo coloca a la izquierda
     @Override
     public int getItemViewType(int position) {
         Message mensaje = listaMensajes.get(position);
@@ -42,6 +45,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    // Se ejecuta cada vez que necesite crearse una fila nueva,
+    // Se crea el layout con el tipo de fila que corresponda al tipo de mensaje
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -56,6 +61,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    // Se ejecuta cada vez que una fila va a mostrarse
+    // Se llena la fila con los datos del mensaje, digase contenido, hora y fecha
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Message mensaje = listaMensajes.get(position);
@@ -73,6 +80,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    // Si hay URL muestra la imagen con Glide, si no, muestra el texto
     private void mostrarContenido(Message mensaje, TextView txtMensaje, ImageView imgMensaje) {
         String urlImagen = mensaje.getImagenUrl();
 
@@ -87,10 +95,12 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    // Convierte el timestamp en una clave de dia para poder comparar las fechas
     private String claveDia(long timestamp) {
         return new SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(new Date(timestamp));
     }
 
+    // Retorna hoy, ayer o la fecha completa
     private String textoFecha(long timestamp) {
         String clave = claveDia(timestamp);
         long ahora = System.currentTimeMillis();
@@ -104,6 +114,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date(timestamp));
     }
 
+    // Agrupa por día mostrando la fecha solo en el primer mensaje o cuando cambia de dia
     private void configurarFecha(TextView txtFecha, int position) {
         long actual = listaMensajes.get(position).getTimestamp();
 
@@ -123,6 +134,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return listaMensajes.size();
     }
 
+    // Guarda las referencias a las vistas de la burbuja para no buscarlas en cada bind
     static class EnviadoViewHolder extends RecyclerView.ViewHolder {
         TextView txtMensajeEnv;
         ImageView imgMensajeEnv;

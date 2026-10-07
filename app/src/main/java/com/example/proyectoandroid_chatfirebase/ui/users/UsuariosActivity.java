@@ -58,6 +58,7 @@ public class UsuariosActivity extends AppCompatActivity {
 
         listaUsuarios = new ArrayList<>();
 
+        // Al tocar un usuario se abre el chat enviando su uid y nombre por Intent
         userAdapter = new UserAdapter(listaUsuarios, usuario -> {
             Intent intent = new Intent(UsuariosActivity.this, ChatActivity.class);
             intent.putExtra("uid", usuario.getUid());
@@ -66,10 +67,14 @@ public class UsuariosActivity extends AppCompatActivity {
         });
 
         rvChats.setAdapter(userAdapter);
+
+        // LinearLayoutManager acomoda las filas en una lista vertical
+        rvChats.setLayoutManager(new LinearLayoutManager(this));
         rvChats.setLayoutManager(new LinearLayoutManager(this));
 
         usersViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
+        // La vista observa el LiveData y actualiza el adapter cuando llegan los usuarios
         usersViewModel.getUsuarios().observe(this, usuarios -> userAdapter.actualizarLista(usuarios));
         usersViewModel.getError().observe(this, mensaje ->
                 Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show());
@@ -83,12 +88,14 @@ public class UsuariosActivity extends AppCompatActivity {
         String miUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         usersViewModel.cargarUsuarios(miUid);
 
+        // Guarda el token de Fire Cloud Messaging de este dispositivo al entrar con sesion iniciada
         usersViewModel.guardarTokenActual();
 
         permisoNots = registerForActivityResult(
                 new ActivityResultContracts.RequestPermission(),
                 concedido -> Log.d("FCM", "Permiso de notificaciones: " + concedido));
 
+        // Desde Android 13 hay que pedir permiso para mostrar notificaciones
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
                 && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -97,6 +104,7 @@ public class UsuariosActivity extends AppCompatActivity {
 
     }
 
+    // Conecta el buscador de la barra con el filtro del adapter
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_usuarios, menu);
@@ -125,6 +133,8 @@ public class UsuariosActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_logout) {
+
+            // Cerrar sesion borra primero el token y despues hace el sign out
             usersViewModel.cerrarSesionLimpiando(() -> {
                 authViewModel.logout();
                 Intent intent = new Intent(UsuariosActivity.this, LoginActivity.class);

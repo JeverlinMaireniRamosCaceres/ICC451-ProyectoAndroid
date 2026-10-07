@@ -19,6 +19,9 @@ public class RegistroActivity extends AppCompatActivity {
     private ActivityRegistroBinding binding;
     private AuthViewModel authViewModel;
 
+    // Carga el diseño, se obtiene el viewmodel y conecta los botones
+    // de registro, que llama a la validacion
+    // y el de texto que dice ya tiene una cuenta
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +30,6 @@ public class RegistroActivity extends AppCompatActivity {
 
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         observeViewModel();
-
 
         binding.btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +54,8 @@ public class RegistroActivity extends AppCompatActivity {
 
         authViewModel.getAuthSuccess().observe(this, success -> {
             if (success) {
+                // Firebase deja la sesion iniciada al registrarse y se cierra para volver al login
+                authViewModel.logout();
                 authViewModel.logout();
                 finish();
             }
@@ -66,6 +70,7 @@ public class RegistroActivity extends AppCompatActivity {
         });
     }
 
+    // Valida nombre, correo, clave y confirmacion antes de registrar
     private void validationAndRegister() {
         binding.lblError.setVisibility(View.GONE);
         AtomicBoolean isValid = new AtomicBoolean(true);

@@ -9,10 +9,13 @@ import com.example.proyectoandroid_chatfirebase.data.repository.auth.AuthReposit
 public class AuthViewModel extends ViewModel {
     private final AuthRepository authRepository = new AuthRepository();
 
+    // Los MutableLiveData se utilizan para saber el estado de la pantalla,
+    // es decir, lo que la activity necesita para dibujarse
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> authSuccess = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
 
+    // Este callback recibe la respuesta del repositorio, que es el AuthRepository, y las retorna para los live data
     private final AuthRepository.AuthCallback authCallback = new AuthRepository.AuthCallback() {
         @Override
         public void onSuccess() {
@@ -27,6 +30,7 @@ public class AuthViewModel extends ViewModel {
         }
     };
 
+    // Los LiveData solo se pueden leer, no se pueden modificar. La vista no puede modificarlos
     public LiveData<Boolean> getLoading() {
         return loading;
     }
@@ -48,11 +52,13 @@ public class AuthViewModel extends ViewModel {
         return authRepository.isUserLoggedIn();
     }
 
+    // Muestra el indicador de que esta cargando y pasa el login al repositorio
     public void login(String email, String password) {
         loading.setValue(true);
         authRepository.login(email, password, authCallback);
     }
 
+    // Muestra el indicador de que esta cargando y pasa el registro al repositorio
     public void register(String nombre, String email, String password) {
         loading.setValue(true);
         authRepository.register(nombre, email, password, authCallback);

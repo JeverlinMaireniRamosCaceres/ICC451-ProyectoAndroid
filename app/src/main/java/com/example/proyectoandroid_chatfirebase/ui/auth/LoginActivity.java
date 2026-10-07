@@ -17,7 +17,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class LoginActivity extends AppCompatActivity {
 
+    // ViewBinding da acceso directo a las vistas del XML sin findViewById
     private ActivityLoginBinding binding;
+
+    // ViewModelProvider devuelve el mismo ViewModel aunque la pantalla se rote
     private AuthViewModel authViewModel;
 
     @Override
@@ -28,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
 
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
+        // Si ya hay sesion guardada va directo a la lista de usuarios
         if (authViewModel.isUserLoggedIn()) {
             goToUsers();
             return;
@@ -45,11 +49,13 @@ public class LoginActivity extends AppCompatActivity {
         binding.lblCreateNewAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Intent explicito que abre la pantalla de registro
                 startActivity(new Intent(LoginActivity.this, RegistroActivity.class));
             }
         });
     }
 
+    // La vista solo observa y reacciona a los cambios de carga, exito y error
     private void observeViewModel() {
         authViewModel.getLoading().observe(this, isLoading -> {
             binding.btnSignIn.setVisibility(isLoading ? View.INVISIBLE : View.VISIBLE);
@@ -70,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+    // Validaciones de formulario que marcan el error directamente en cada campo
     private void validationAndLogin() {
         binding.lblError.setVisibility(View.GONE);
         AtomicBoolean isValid = new AtomicBoolean(true);
@@ -98,6 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    // CLEAR_TASK evita que el boton atras regrese al login
     private void goToUsers() {
         Intent intent = new Intent(LoginActivity.this, UsuariosActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

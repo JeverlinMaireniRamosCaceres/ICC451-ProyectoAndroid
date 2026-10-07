@@ -14,6 +14,8 @@ import java.util.List;
 public class ChatViewModel extends ViewModel {
 
     private final MessageRepository messageRepository;
+
+    // Es la lista de los mensajes que se ven en el ChatActivity
     private final MutableLiveData<List<Message>> mensajes = new MutableLiveData<>();
     private final MutableLiveData<String> error = new MutableLiveData<>();
 
@@ -31,6 +33,8 @@ public class ChatViewModel extends ViewModel {
         return error;
     }
 
+    // Se calcula el id del chat
+    // Se escucha los mensajes en tiempo real a traves del listener
     public void iniciarChat(String uidUsuarioActual, String uidOtroUsuario) {
         chatId = messageRepository.generarChatId(uidUsuarioActual, uidOtroUsuario);
 
@@ -51,6 +55,9 @@ public class ChatViewModel extends ViewModel {
         return messageRepository.obtenerMiUid();
     }
 
+    // Aqui es donde se crean y envian los mensajes
+    // Se crea un objeto para el mensaje
+    // Finalmente se pasa al repositorio
     public void enviarMensaje(String texto, String uidUsuarioActual, String hora) {
         if (texto == null || texto.trim().isEmpty()) {
             return;
@@ -70,6 +77,9 @@ public class ChatViewModel extends ViewModel {
             }
         });
     }
+
+    // Si se va a enviar una imagen, primero se sube la imagen al Storage
+    // Con la url de la imagen que retorna el storage se crea el mensaje y se envia
     public void enviarImagen(Uri imagenUri, String uidUsuarioActual, String hora) {
         if (imagenUri == null) {
             return;

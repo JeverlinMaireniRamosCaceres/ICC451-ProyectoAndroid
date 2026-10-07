@@ -17,10 +17,14 @@ import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
 
+    // Lista de los usuarios que se ven en la pantalla en el momento
     private final List<User> listaUsuarios;
+
+    // Copia de todos los usuarios para poder restaurar la lista al borrar la busqueda
     private final List<User> listaCompleta = new ArrayList<>();
     private final OnUserClickListener listener;
 
+    // A traves de esta interfaz el adapter avisa al activity que hicieron clic sobre un usuario
     public interface OnUserClickListener {
         void onUserClick(User usuario);
     }
@@ -38,6 +42,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         return new UserViewHolder(vista);
     }
 
+    // Llena la fila con los datos del usuario y conecta el clic
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         User usuario = listaUsuarios.get(position);
@@ -55,12 +60,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     }
 
+    // Recibe la lista nueva del ViewModel y la muestra sin filtro
     public void actualizarLista(List<User> nuevosUsuarios) {
         listaCompleta.clear();
         listaCompleta.addAll(nuevosUsuarios);
         filtrar("");
     }
 
+    // Busca en la lista que ya esta descargada, no consulta en Firestore
+    // Para filtrar los usuarios
     public void filtrar(String texto) {
         String busqueda = texto == null ? "" : texto.trim().toLowerCase();
 
@@ -74,6 +82,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         notifyDataSetChanged();
     }
 
+    // Guarda las referencias a las vistas de la fila para no buscarlas en cada bind
     static class UserViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imgAvatar;
