@@ -86,6 +86,12 @@ public class ChatActivity extends AppCompatActivity {
             listaMensajes.clear();
             listaMensajes.addAll(mensajes);
             messageAdapter.notifyDataSetChanged();
+
+            // Para bajar hasta el ultimo mensaje
+            if (!listaMensajes.isEmpty()) {
+                rvMensajes.scrollToPosition(listaMensajes.size() - 1);
+            }
+
         });
 
         btnEnviar.setOnClickListener(v -> {
