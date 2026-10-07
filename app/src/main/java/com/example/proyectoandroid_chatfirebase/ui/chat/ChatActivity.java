@@ -35,6 +35,7 @@ public class ChatActivity extends AppCompatActivity {
     private String uidUsuarioActual;
     private ChatViewModel chatViewModel;
 
+    // Abre la galeria y al elegir una imagen la entrega al ViewModel
     private final ActivityResultLauncher<String> selectorImagen = registerForActivityResult(
             new ActivityResultContracts.GetContent(),
             new ActivityResultCallback<Uri>() {
@@ -47,6 +48,7 @@ public class ChatActivity extends AppCompatActivity {
                 }
             });
 
+    // Prepara la pantalla del chat conectando vistas, ViewModel, lista de mensajes y botones
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +105,7 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
+    // La flecha de la barra cierra el chat y vuelve a la pantalla anterior
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
